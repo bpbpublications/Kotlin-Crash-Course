@@ -1,0 +1,172 @@
+openapi: "3.0.3"
+info:
+  title: "Application API"
+  description: "Application API"
+  version: "1.0.0"
+servers:
+  - url: "http://localhost:8080"
+paths:
+  /songs:
+    get:
+      summary: "List all songs"
+      description: "Retrieve a list of all songs in the library."
+      responses:
+        "200":
+          description: "A list of songs."
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/Song'
+    post:
+      summary: "Add a new song"
+      description: "Adds a new song to the library."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SongRequest'
+      responses:
+        "201":
+          description: "Song added successfully: 3fa85f64-…-2c963f66afa6."
+
+  /songs/{id}:
+    get:
+      summary: "Get a song specified by id"
+      description: "Retrieve a song by id."
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "A song."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+        "404":
+          description: "Song not found."
+        "400":
+          description: "Invalid request."
+    put:
+      summary: "Update a song"
+      description: "Updates an existing song's details."
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SongRequest'
+      responses:
+        "200":
+          description: "Song updated successfully."
+        "400":
+          description: "Invalid request."
+
+    patch:
+      summary: "Partially update a song's genre"
+      description: "Updates only the genre of an existing song."
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                genre:
+                  type: string
+      responses:
+        "200":
+          description: "Song genre updated successfully."
+        "404":
+          description: "No song with the specified ID was found."
+        "400":
+          description: "Invalid request."
+
+    delete:
+      summary: "Delete a song"
+      description: "Removes a song from the library."
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "Song deleted successfully."
+        "400":
+          description: "Invalid request."
+
+components:
+  schemas:
+    Song:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "A unique identifier for the song."
+        title:
+          type: string
+          description: "The name of the song."
+        artist:
+          type: string
+          description: "The artist or band that performed the song."
+        album:
+          type: string
+          description: "The album on which the song appears."
+        genre:
+          type: string
+          description: "The genre of the music."
+        year:
+          type: integer
+          format: int32
+          description: "The year the song was released."
+      required:
+        - id
+        - title
+        - artist
+        - genre
+        - year
+
+    SongRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: "The name of the song."
+        artist:
+          type: string
+          description: "The artist or band that performed the song."
+        album:
+          type: string
+          description: "The album on which the song appears."
+        genre:
+          type: string
+          description: "The genre of the music."
+        year:
+          type: integer
+          format: int32
+          description: "The year the song was released."
+      required:
+        - title
+        - artist
+        - genre
+        - year

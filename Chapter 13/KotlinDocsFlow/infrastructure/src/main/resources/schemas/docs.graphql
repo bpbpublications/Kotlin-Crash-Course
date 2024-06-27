@@ -1,0 +1,15 @@
+type Document {
+    id: String!
+    name: String!
+    analysis: String
+    receivedTimestamp: String!
+}
+
+type Query {
+    getDocumentById(id: String!): Document
+}
+
+type Schema {
+    query: Query
+}
+
