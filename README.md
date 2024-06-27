@@ -1,2 +1,2 @@
-# Kotlin Crash Course Learn by Doing
- Kotlin Crash Course: Learn by Doing, by BPB Publications
+# Kotlin Crash Course
+ Kotlin Crash Course, by BPB Publications
